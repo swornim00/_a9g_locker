@@ -9,14 +9,14 @@
 
 #define MAIN_TASK_STACK_SIZE    (2048 * 2)
 #define MAIN_TASK_PRIORITY      0
-#define MAIN_TASK_NAME          "Main Test Task"
+#define MAIN_TASK_NAME          "Main Task"
 
-#define SECOND_TASK_STACK_SIZE    (2048 * 2)
-#define SECOND_TASK_PRIORITY      1
-#define SECOND_TASK_NAME          "Second Test Task"
+#define GETSMS_TASK_STACK_SIZE    (2048 * 2)
+#define GETMS_TASK_PRIORITY      1
+#define GETSMS_TASK_NAME          "Second Test Task"
 
 static HANDLE mainTaskHandle = NULL;
-static HANDLE secondTaskHandle = NULL;
+static HANDLE getsmsTaskHandle = NULL;
 
 
 void EventDispatch(API_Event_t* pEvent)
@@ -28,20 +28,16 @@ void EventDispatch(API_Event_t* pEvent)
     }
 }
 
-void SecondTask(void *pData)
+void GetSMSTask(void *pData)
 {
-    while(1)
-    {
-        Trace(1,"Hello GPRS ");
-        OS_Sleep(3000);
-    }
+    // We will Start Our Code Here!
 }
 
 void MainTask(void *pData)
 {
     API_Event_t* event=NULL;
 
-    secondTaskHandle = OS_CreateTask(SecondTask,
+    getsmsTaskHandle = OS_CreateTask(GetSMSTask,
         NULL, NULL, SECOND_TASK_STACK_SIZE, SECOND_TASK_PRIORITY, 0, 0, SECOND_TASK_NAME);
 
     while(1)
@@ -56,12 +52,9 @@ void MainTask(void *pData)
     }
 }
 
-void first_Main(void)
+void app_Main(void)
 {
     mainTaskHandle = OS_CreateTask(MainTask,
         NULL, NULL, MAIN_TASK_STACK_SIZE, MAIN_TASK_PRIORITY, 0, 0, MAIN_TASK_NAME);
     OS_SetUserMainHandle(&mainTaskHandle);
-
-	
-	printf("ÇëÊäÈëÒ»¸ö×Ö·û´®...\n");
 }
