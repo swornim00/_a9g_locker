@@ -11,12 +11,12 @@
 #define MAIN_TASK_PRIORITY      0
 #define MAIN_TASK_NAME          "Main Task"
 
-#define GETSMS_TASK_STACK_SIZE    (2048 * 2)
-#define GETMS_TASK_PRIORITY      1
-#define GETSMS_TASK_NAME          "Get SMS Task"
+#define LOCKER_TASK_STACK_SIZE    (2048 * 2)
+#define LOCKER_TASK_PRIORITY      1
+#define LOCKER_TASK_NAME          "Get SMS Task"
 
 static HANDLE mainTaskHandle = NULL;
-static HANDLE getsmsTaskHandle = NULL;
+static HANDLE lockerTaskHandle = NULL;
 
 
 void EventDispatch(API_Event_t* pEvent)
@@ -63,7 +63,7 @@ void EventDispatch(API_Event_t* pEvent)
     }
 }
 
-void GetSMSTask(void *pData)
+void LockerTask(void *pData)
 {
     // We will Start Our Code Here!
 }
@@ -72,8 +72,8 @@ void MainTask(void *pData)
 {
     API_Event_t* event=NULL;
 
-    getsmsTaskHandle = OS_CreateTask(GetSMSTask,
-        NULL, NULL, SECOND_TASK_STACK_SIZE, SECOND_TASK_PRIORITY, 0, 0, SECOND_TASK_NAME);
+    lockerTaskHandle = OS_CreateTask(LockerTask,
+        NULL, NULL, LOCKER_TASK_STACK_SIZE, LOCKER_TASK_PRIORITY, 0, 0, LOCKER_TASK_NAME);
 
     while(1)
     {
