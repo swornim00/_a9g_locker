@@ -13,7 +13,7 @@
 
 #define LOCKER_TASK_STACK_SIZE    (2048 * 2)
 #define LOCKER_TASK_PRIORITY      1
-#define LOCKER_TASK_NAME          "Get SMS Task"
+#define LOCKER_TASK_NAME          "Locker Task"
 
 static HANDLE mainTaskHandle = NULL;
 static HANDLE lockerTaskHandle = NULL;
@@ -51,13 +51,12 @@ void EventDispatch(API_Event_t* pEvent)
             if(encodeType == SMS_ENCODE_TYPE_ASCII)
             {
                 Trace(2,"[*] Message content:%s",content);
-                UART_Write(UART1,content,contentLength);
             }else{
                 Trace(2,"[!] The Message is not in ASCII")
             }
             break;
         case API_EVENT_ID_SMS_ERROR:
-            Trace(10,"[!] SMS error occured! cause:%d",pEvent->param1);
+            Trace(1,"[!] SMS error occured! cause:%d",pEvent->param1);
         default:
             break;
     }
@@ -65,7 +64,7 @@ void EventDispatch(API_Event_t* pEvent)
 
 void LockerTask(void *pData)
 {
-    // We will Start Our Code Here!
+    Tracer(1,"Test Tracer");
 }
 
 void MainTask(void *pData)
